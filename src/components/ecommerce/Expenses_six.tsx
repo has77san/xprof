@@ -3,7 +3,6 @@ import ComponentCard from "../../components/common/ComponentCard";
 import PageBreadcrumb from "../../components/common/PageBreadCrumb";
 import PageMeta from "../../components/common/PageMeta";
 
-
 interface FormItem {
   amount: string;
 }
@@ -12,116 +11,110 @@ interface CardItem {
   title: string;
   optionsFrom: string[];
   optionsTo: string[];
+  description: string; // ✅ أضفنا وصف لكل كارد
 }
 
-
-
 function Expenses_six() {
+  const cards: CardItem[] = [
+    {
+      title: "شراء الموجود الثابت",
+      optionsFrom: ["الموجود الثابت"],
+      optionsTo: ["نقدية بالصندوق", "الدائنون"],
+      description:
+        "   وذالك عن شراء الموجود الثابت خلال الفتره", 
+    },
+     {
+      title: "شراء قواطع وديكورات",
+      optionsFrom: ["قواطع وديكورات"],
+      optionsTo: ["نقدية بالصندوق", "الدائنون"],
+      description:
+        "وذالك عن شراء قواطع وديكورات خلال الفترة",
+    },
+     {
+      title: "بيع الموجود الثابت",
+      optionsFrom: ["فحص الاندثار المتراكم", "الدائنون"],
+      optionsTo: [ "نقدية بالصندوق"],
+      description:
+        "وذالك عن بيع الموجود الثابت خلال الفترة",
+    },
+    {
+      title: "التبرع بالموجود الثابت",
+      optionsFrom: ["اطفاء القواطع والديكور"],
+      optionsTo: ["قواطع وديكورات"],
+      description:
+        "وذالك عن التبرع بالموجود الثابت خلال الفترة",
+    },
+  ];
 
-    const cards: CardItem[] = [
-            {
-              title: "شراء موجود ثابت",
-              optionsFrom: ["موجود ثابت"],
-              optionsTo: ["دائنون","نقدية بالصندوق"],
-            },
+  const [isVisible, setIsVisible] = useState<boolean[]>(cards.map(() => false));
+  const [fromForms, setFromForms] = useState<FormItem[][]>(
+    cards.map(() => [{ amount: "" }])
+  );
+  const [toForms, setToForms] = useState<FormItem[][]>(
+    cards.map(() => [{ amount: "" }])
+  );
 
-             {
-              title: "شراء متواضع وديكورات",
-              optionsFrom: ["قواطع وديكورات"],
-              optionsTo: ["دائنون","نقدية بالصندوق"],
-            },
+  const toggleVisibility = (index: number) => {
+    setIsVisible((prev) => prev.map((v, i) => (i === index ? !v : v)));
+  };
 
-             {
-              title: "بيع الموجود الثابت",
-              optionsFrom: ["فحص الاندثار المتراكم","نقدية الصندوق"],
-              optionsTo: ["الموجود الثابت"],
-            },
+  const addNewForm = (cardIndex: number, formIndex: number, type: "from" | "to") => {
+    if (type === "from") {
+      setFromForms((prev) => {
+        const copy = prev.map((arr) => [...arr]);
+        copy[cardIndex].splice(formIndex + 1, 0, { amount: "" });
+        return copy;
+      });
+    } else {
+      setToForms((prev) => {
+        const copy = prev.map((arr) => [...arr]);
+        copy[cardIndex].splice(formIndex + 1, 0, { amount: "" });
+        return copy;
+      });
+    }
+  };
 
-             {
-              title: "التبرع بالموجود الثابت",
-              optionsFrom: ["فحص الاندثار المتراكم","تبرعات للغير"],
-              optionsTo: ["الموجود الثابت"],
-            },
+  const handleAmountChange = (
+    cardIndex: number,
+    formIndex: number,
+    type: "from" | "to",
+    value: string
+  ) => {
+    if (type === "from") {
+      setFromForms((prev) => {
+        const copy = prev.map((arr) => [...arr]);
+        copy[cardIndex][formIndex].amount = value;
+        return copy;
+      });
+    } else {
+      setToForms((prev) => {
+        const copy = prev.map((arr) => [...arr]);
+        copy[cardIndex][formIndex].amount = value;
+        return copy;
+      });
+    }
+  };
 
-            {
-              title: "شطب القواطع والديكورات",
-              optionsFrom: ["اطفاء القواطع والديكور"],
-              optionsTo: ["قواطع وديكورات"],
-            },
-          ];
-        
-          const [isVisible, setIsVisible] = useState<boolean[]>(cards.map(() => false));
-          const [fromForms, setFromForms] = useState<FormItem[][]>(
-            cards.map(() => [{ amount: "" }])
-          );
-          const [toForms, setToForms] = useState<FormItem[][]>(
-            cards.map(() => [{ amount: "" }])
-          );
-        
-          // ✅ إظهار أو إخفاء الكارد
-          const toggleVisibility = (index: number) => {
-            setIsVisible((prev) => prev.map((v, i) => (i === index ? !v : v)));
-          };
-        
-          // ✅ إضافة صف جديد
-          const addNewForm = (cardIndex: number, formIndex: number, type: "from" | "to") => {
-            if (type === "from") {
-              setFromForms((prev) => {
-                const copy = prev.map((arr) => [...arr]);
-                copy[cardIndex].splice(formIndex + 1, 0, { amount: "" });
-                return copy;
-              });
-            } else {
-              setToForms((prev) => {
-                const copy = prev.map((arr) => [...arr]);
-                copy[cardIndex].splice(formIndex + 1, 0, { amount: "" });
-                return copy;
-              });
-            }
-          };
-        
-          // ✅ تعديل القيم
-          const handleAmountChange = (
-            cardIndex: number,
-            formIndex: number,
-            type: "from" | "to",
-            value: string
-          ) => {
-            if (type === "from") {
-              setFromForms((prev) => {
-                const copy = prev.map((arr) => [...arr]);
-                copy[cardIndex][formIndex].amount = value;
-                return copy;
-              });
-            } else {
-              setToForms((prev) => {
-                const copy = prev.map((arr) => [...arr]);
-                copy[cardIndex][formIndex].amount = value;
-                return copy;
-              });
-            }
-          };
-        
-          // ✅ حذف صف
-          const handleDeleteForm = (cardIndex: number, formIndex: number, type: "from" | "to") => {
-            if (type === "from") {
-              setFromForms((prev) => {
-                const copy = prev.map((arr) => [...arr]);
-                copy[cardIndex] = copy[cardIndex].filter((_, i) => i !== formIndex);
-                return copy;
-              });
-            } else {
-              setToForms((prev) => {
-                const copy = prev.map((arr) => [...arr]);
-                copy[cardIndex] = copy[cardIndex].filter((_, i) => i !== formIndex);
-                return copy;
-              });
-            }
-        }
+  const handleDeleteForm = (cardIndex: number, formIndex: number, type: "from" | "to") => {
+    if (type === "from") {
+      setFromForms((prev) => {
+        const copy = prev.map((arr) => [...arr]);
+        copy[cardIndex] = copy[cardIndex].filter((_, i) => i !== formIndex);
+        return copy;
+      });
+    } else {
+      setToForms((prev) => {
+        const copy = prev.map((arr) => [...arr]);
+        copy[cardIndex] = copy[cardIndex].filter((_, i) => i !== formIndex);
+        return copy;
+      });
+    }
+  };
+
   return (
-       <>
-      <PageMeta title="" description="" />
-      <PageBreadcrumb pageTitle="الموجودات الثابتة" />
+    <>
+      <PageMeta title="" description=" " />
+      <PageBreadcrumb pageTitle="الموجودات الثابته" />
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         {cards.map((card, cardIndex) => (
@@ -258,6 +251,11 @@ function Expenses_six() {
                         </div>
                       </form>
                     ))}
+
+                    {/* ✅ صندوق الوصف أسفل "إلى ح /" */}
+                    <div className="mt-4 bg-gray-50 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-lg p-3 text-sm text-gray-700 dark:text-gray-200 leading-relaxed">
+                      {card.description}
+                    </div>
                   </div>
                 </div>
               </ComponentCard>
@@ -266,7 +264,7 @@ function Expenses_six() {
         ))}
       </div>
     </>
-  )
+  );
 }
 
-export default Expenses_six
+export default Expenses_six;
