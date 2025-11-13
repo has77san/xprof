@@ -35,6 +35,8 @@ import Expenses_six from "./components/ecommerce/Expenses_six";
 import Selectattsix from "./components/ecommerce/Selectattsix";
 import Selectattseven from "./components/ecommerce/Selectattseven";
 import Compliance from "./components/ecommerce/Compliance";
+import AccountingTable from "./components/ecommerce/AccountingTable";
+import CashTable from "./components/ecommerce/CashTable";
 
 export default function App() {
   return (
@@ -76,7 +78,17 @@ export default function App() {
           <Route path="/Compliance" element={<Compliance />} />
 
 
+             {/*****************/}
+             
+            {/* سجلات المحاسبيه */}
+            <Route path="/AccountingTable" element={<AccountingTable />} />
+             <Route path="/CashTable" element={<CashTable />} />
+
+
+              {/*****************/}
+
            {/* تسجيل المصاريف */}
+
 
           <Route path="/Salaries" element={<Salaries />} />
           <Route path="/Expensestow" element={<Expensestow />} />

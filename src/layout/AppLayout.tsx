@@ -5,7 +5,7 @@ import Backdrop from "./Backdrop";
 import AppSidebar from "./AppSidebar";
 
 // استيراد الصورة
-import backgroundImage from "../../public/images/cards/WhatsApp Image 2025-11-05 at 13.45.19_86a5b0c3.jpg";
+import backgroundImage from "../../public/images/cards/WhatsApp Image 2025-11-05 at 13.45.19_85cdf7f8.jpg";
 
 const LayoutContent: React.FC = () => {
   const { isExpanded, isHovered, isMobileOpen } = useSidebar();

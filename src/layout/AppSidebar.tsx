@@ -66,7 +66,8 @@ const othersItems: NavItem[] = [
     icon: <FolderOpen />,
     name: "السجلات المحاسبة",
     subItems: [
-      { name: "سجل اليومية العام", path: "/" },
+      { name: "سجل اليومية العام", path: "/AccountingTable" },
+       { name: "سجل الصندوق", path: "/CashTable" },
       { name: "سجل الاسناد العام", path: "/" },
       { name: "سجل الموجودات الثابته", path: "/" },
       { name: "سجل القاصة /فئات", path: "/" },
