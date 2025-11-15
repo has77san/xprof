@@ -68,7 +68,7 @@ const othersItems: NavItem[] = [
     subItems: [
       { name: "سجل اليومية العام", path: "/AccountingTable" },
        { name: "سجل الصندوق", path: "/CashTable" },
-      { name: "سجل الاسناد العام", path: "/" },
+      { name: "سجل الاسناد العام", path: "/LedgerTable" },
       { name: "سجل الموجودات الثابته", path: "/" },
       { name: "سجل القاصة /فئات", path: "/" },
     ],

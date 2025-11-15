@@ -37,6 +37,7 @@ import Selectattseven from "./components/ecommerce/Selectattseven";
 import Compliance from "./components/ecommerce/Compliance";
 import AccountingTable from "./components/ecommerce/AccountingTable";
 import CashTable from "./components/ecommerce/CashTable";
+import LedgerTable from "./components/ecommerce/LedgerTable";
 
 export default function App() {
   return (
@@ -83,6 +84,8 @@ export default function App() {
             {/* سجلات المحاسبيه */}
             <Route path="/AccountingTable" element={<AccountingTable />} />
              <Route path="/CashTable" element={<CashTable />} />
+                          <Route path="/LedgerTable" element={<LedgerTable />} />
+
 
 
               {/*****************/}
