@@ -23,6 +23,12 @@ export default function LedgerTable() {
     setRows(updated);
   };
 
+  const saveRows = () => {
+    console.log("Saved Rows:", rows);
+    alert("تم حفظ البيانات بنجاح! ✓");
+    // هنا تقدر ترسل البيانات لسيرفر أو تخزنها
+  };
+
   return (
     <div className="p-6 w-full max-w-4xl mx-auto">
 
@@ -96,13 +102,20 @@ export default function LedgerTable() {
         </table>
       </div>
 
-      {/* Add Row Button */}
-      <div className="flex justify-center mt-4">
+      {/* Buttons */}
+      <div className="flex justify-center gap-4 mt-4">
         <button
           onClick={addRow}
           className="bg-blue-600 text-white px-6 py-2 text-lg rounded-full shadow hover:bg-blue-700 transition"
         >
           + إضافة صف
+        </button>
+
+        <button
+          onClick={saveRows}
+          className="bg-green-600 text-white px-6 py-2 text-lg rounded-full shadow hover:bg-green-700 transition"
+        >
+          💾 حفظ
         </button>
       </div>
 
