@@ -1,49 +1,40 @@
 import { useState } from "react";
 
 export default function AccountingTable() {
-  const [rows, setRows] = useState([{ day: 1 }]);
-  const [inputs, setInputs] = useState<{ [key: number]: string[] }>({});
+  const [rows, setRows] = useState([{}]);
+  const [inputs, setInputs] = useState<{ [key: number]: { [key: number]: string } }>({});
 
-  const columns = [
+  const mainColumns = [
     "التاريخ",
     "مدين",
     "دائن",
     "التفاصيل",
     "رقم القيد",
     "المبلغ",
-    "الموجودات الثابتة - مدين",
-    "الموجودات الثابتة - دائن",
-    "النقود - مدين",
-    "النقود - دائن",
-    "المطلوبات ورأس المال - مدين",
-    "المطلوبات ورأس المال - دائن",
-    "الاستخدامات - مدين",
-    "الاستخدامات - دائن",
-    "الإيرادات - مدين",
-    "الإيرادات - دائن",
-    "الأستاذ العام - مدين",
-    "الأستاذ العام - دائن",
-    "إجراء",
+  ];
+
+  const groupedColumns = [
+    "الموجودات الثابتة",
+    "النقود",
+    "المطلوبات ورأس المال",
+    "الاستخدامات",
+    "الإيرادات",
+    "الأستاذ العام",
   ];
 
   const addRow = () => {
-    if (rows.length < 30) {
-      setRows([...rows, { day: rows.length + 1 }]);
-    }
+    if (rows.length < 30) setRows([...rows, {}]);
   };
 
   const deleteRow = (index: number) => {
     const updatedRows = rows.filter((_, i) => i !== index);
-    const renumberedRows = updatedRows.map((r, i) => ({ ...r, day: i + 1 }));
-    setRows(renumberedRows);
+    setRows(updatedRows);
 
-    // حذف البيانات الخاصة بالصف المحذوف
     const newInputs = { ...inputs };
     delete newInputs[index];
     setInputs(newInputs);
   };
 
-  // تحديث قيمة كل input
   const handleInputChange = (rowIndex: number, colIndex: number, value: string) => {
     setInputs((prev) => ({
       ...prev,
@@ -54,33 +45,37 @@ export default function AccountingTable() {
     }));
   };
 
-  // زر الحفظ
   const handleSave = () => {
-    const tableData = rows.map((row, rowIndex) => {
+    const tableData = rows.map((_, rowIndex) => {
       const rowData: { [key: string]: string } = {};
-      columns.forEach((col, colIndex) => {
-        if (col === "التاريخ") {
-          rowData[col] = `اليوم ${row.day}`;
-        } else if (col === "إجراء") {
-          rowData[col] = "";
-        } else {
-          rowData[col] = inputs[rowIndex]?.[colIndex] || "";
-        }
+
+      let colIndex = 0;
+
+      // الأعمدة الثابتة
+      mainColumns.forEach((col) => {
+        rowData[col] = inputs[rowIndex]?.[colIndex] || "";
+        colIndex++;
       });
+
+      // الأعمدة المتفرعة (مدين / دائن)
+      groupedColumns.forEach((group) => {
+        rowData[`${group} - مدين`] = inputs[rowIndex]?.[colIndex] || "";
+        colIndex++;
+        rowData[`${group} - دائن`] = inputs[rowIndex]?.[colIndex] || "";
+        colIndex++;
+      });
+
       return rowData;
     });
 
-    console.log("بيانات الجدول للحفظ:", tableData);
-    alert("تم حفظ البيانات! تحقق من الـ console.");
+    console.log("بيانات الجدول:", tableData);
+    alert("تم حفظ البيانات! شاهد الـ console");
   };
 
   return (
     <div
       className="p-6 overflow-hidden transition-all duration-300 mr-[300px]"
-      style={{
-        width: "calc(96vw - 260px)",
-        marginLeft: "260px",
-      }}
+      style={{ width: "calc(96vw - 260px)", marginLeft: "260px" }}
     >
       <div className="flex justify-between items-center mb-4">
         <h2 className="text-xl text-white font-bold text-right">الجدول المحاسبي</h2>
@@ -89,7 +84,7 @@ export default function AccountingTable() {
             onClick={addRow}
             className="bg-blue-600 text-white px-4 py-2 rounded-xl hover:bg-blue-700 transition"
           >
-            ➕ إضافة يوم
+            ➕ إضافة صف
           </button>
           <button
             onClick={handleSave}
@@ -102,52 +97,81 @@ export default function AccountingTable() {
 
       <div className="relative bg-white rounded-lg shadow overflow-x-auto max-w-full">
         <table className="border border-gray-400 text-center text-sm min-w-max">
+
+          {/* ===== الهيدر الصف الأول ===== */}
           <thead>
             <tr className="bg-blue-300 text-black">
-              {columns.map((col, i) => (
-                <th key={i} className="border border-gray-400 p-2 whitespace-nowrap">
+
+              {/* الأعمدة الأساسية */}
+              {mainColumns.map((col, i) => (
+                <th key={i} rowSpan={2} className="border p-2 whitespace-nowrap">
                   {col}
                 </th>
+              ))}
+
+              {/* الأعمدة المتفرعة */}
+              {groupedColumns.map((group, i) => (
+                <th key={i} colSpan={2} className="border p-2 whitespace-nowrap">
+                  {group}
+                </th>
+              ))}
+
+              <th rowSpan={2} className="border p-2 whitespace-nowrap">إجراء</th>
+            </tr>
+
+            {/* ===== الهيدر الصف الثاني ===== */}
+            <tr className="bg-blue-200 text-black">
+              {groupedColumns.map((_, i) => (
+                <>
+                  <th key={`deb-${i}`} className="border p-2 bg-blue-800 text-white">مدين</th>
+                  <th key={`cred-${i}`} className="border p-2 bg-blue-600 text-white">دائن</th>
+                </>
               ))}
             </tr>
           </thead>
 
+          {/* ===== جسم الجدول ===== */}
           <tbody>
-            {rows.map((row, i) => (
-              <tr key={i} className="border-t">
-                {columns.map((col, j) => {
-                  if (j === 0) {
-                    return (
-                      <td key={j} className="border border-gray-300 p-2 font-semibold">
-                        اليوم {row.day}
-                      </td>
-                    );
-                  } else if (col === "إجراء") {
-                    return (
-                      <td key={j} className="border border-gray-300 p-2">
-                        <button
-                          onClick={() => deleteRow(i)}
-                          className="bg-red-500 text-white px-2 py-1 rounded hover:bg-red-600 transition"
-                        >
-                          ❌ حذف
-                        </button>
-                      </td>
-                    );
-                  } else {
-                    return (
-                      <td key={j} className="border border-gray-300 p-2">
-                        <input
-                          type="text"
-                          value={inputs[i]?.[j] || ""}
-                          onChange={(e) => handleInputChange(i, j, e.target.value)}
-                          className="w-[100px] text-center border border-gray-300 rounded p-2 text-base focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white"
-                        />
-                      </td>
-                    );
-                  }
-                })}
-              </tr>
-            ))}
+            {rows.map((_, rowIndex) => {
+              // مجموع الأعمدة = 6 أساسية + (6 مجموعات × 2)
+              const totalCols = mainColumns.length + groupedColumns.length * 2;
+
+              return (
+                <tr key={rowIndex} className="border-t">
+
+                  {/* كل الحقول */}
+                  {Array.from({ length: totalCols }).map((_, colIndex) => (
+                    <td key={colIndex} className="border p-2">
+                      <textarea
+                        value={inputs[rowIndex]?.[colIndex] || ""}
+                        onChange={(e) =>
+                          handleInputChange(rowIndex, colIndex, e.target.value)
+                        }
+                        onInput={(e) => {
+                          const target = e.target as HTMLTextAreaElement;
+                          target.style.height = "auto";
+                          target.style.height = `${target.scrollHeight}px`;
+                        }}
+                        className="min-w-[100px] text-center border border-gray-300 rounded p-2 text-base 
+                                   focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white 
+                                   resize-none overflow-hidden"
+                      />
+                    </td>
+                  ))}
+
+                  {/* زر الحذف */}
+                  <td className="border p-2">
+                    <button
+                      onClick={() => deleteRow(rowIndex)}
+                      className="bg-red-500 text-white px-2 py-1 rounded hover:bg-red-600 transition"
+                    >
+                      ❌ حذف
+                    </button>
+                  </td>
+
+                </tr>
+              );
+            })}
           </tbody>
         </table>
       </div>

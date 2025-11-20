@@ -1,106 +1,194 @@
-// src/components/CashTable.tsx
-import React, { useState } from "react";
+import { useState } from "react";
 
-interface Entry {
+interface Row {
   date: string;
-  details: string;
-  amountIQD: number;
-  amountUSD: number;
+  dollar: number;
+  dinar: number;
+  addDollar: number;
+  addDinar: number;
+  payDollar: number;
+  payDinar: number;
 }
 
-const CashTable: React.FC = () => {
-  const [entries, setEntries] = useState<Entry[]>([]);
-  const [form, setForm] = useState<Entry>({
-    date: "",
-    details: "",
-    amountIQD: 0,
-    amountUSD: 0,
-  });
+interface Table {
+  id: number;
+  rows: Row[];
+}
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
-    const { name, value } = e.target;
-    setForm({ ...form, [name]: name.includes("amount") ? Number(value) : value });
+export default function MultiMoneyTables() {
+  const [tables, setTables] = useState<Table[]>([
+    { id: 1, rows: [{ date: "", dollar: 0, dinar: 0, addDollar: 0, addDinar: 0, payDollar: 0, payDinar: 0 }] },
+  ]);
+
+  const addNewTable = () => {
+    const newTable: Table = {
+      id: tables.length + 1,
+      rows: [{ date: "", dollar: 0, dinar: 0, addDollar: 0, addDinar: 0, payDollar: 0, payDinar: 0 }],
+    };
+    setTables([...tables, newTable]);
   };
 
-  const handleAdd = () => {
-    setEntries([...entries, form]);
-    setForm({ date: "", details: "", amountIQD: 0, amountUSD: 0 });
+  const addNewRow = (tableIndex: number) => {
+    const updatedTables = [...tables];
+    updatedTables[tableIndex].rows.push({
+      date: "",
+      dollar: 0,
+      dinar: 0,
+      addDollar: 0,
+      addDinar: 0,
+      payDollar: 0,
+      payDinar: 0,
+    });
+    setTables(updatedTables);
   };
 
-  const totalIQD = entries.reduce((sum, e) => sum + e.amountIQD, 0);
-  const totalUSD = entries.reduce((sum, e) => sum + e.amountUSD, 0);
+  const updateRow = (tableIndex: number, rowIndex: number, field: keyof Row, value: number | string) => {
+    const updatedTables = [...tables];
+    //@ts-ignore
+    updatedTables[tableIndex].rows[rowIndex][field] = value;
+    setTables(updatedTables);
+  };
+
+  const calculateTotals = (rows: Row[]) => {
+    let totalDollar = 0;
+    let totalDinar = 0;
+    rows.forEach((row) => {
+      totalDollar += row.dollar + row.addDollar - row.payDollar;
+      totalDinar += row.dinar + row.addDinar - row.payDinar;
+    });
+    return { totalDollar, totalDinar };
+  };
 
   return (
-    <div className="p-6 max-w-4xl mx-auto">
-      <h1 className="text-xl font-bold mb-4 text-center bg-blue-100 p-2">الصندوق</h1>
-      <table className="w-full border border-gray-300 text-center">
-        <thead className="bg-gray-100">
-          <tr>
-            <th className="border px-2 py-1">التاريخ</th>
-            <th className="border px-2 py-1">التفاصيل</th>
-            <th className="border px-2 py-1">المبلغ بالدينار</th>
-            <th className="border px-2 py-1">المبلغ بالدولار</th>
-          </tr>
-        </thead>
-        <tbody className="bg-gray-100">
-          {entries.map((e, i) => (
-            <tr key={i}>
-              <td className="border px-2 py-1">{e.date}</td>
-              <td className="border px-2 py-1">{e.details}</td>
-              <td className="border px-2 py-1">{e.amountIQD.toLocaleString()}</td>
-              <td className="border px-2 py-1">${e.amountUSD.toLocaleString()}</td>
-            </tr>
-          ))}
-          <tr className="font-bold bg-gray-200">
-            <td className="border px-2 py-1" colSpan={2}>المجموع</td>
-            <td className="border px-2 py-1">{totalIQD.toLocaleString()}</td>
-            <td className="border px-2 py-1">${totalUSD.toLocaleString()}</td>
-          </tr>
-        </tbody>
-      </table>
+    <div className="max-w-4xl mx-auto p-4">
 
-      {/* Form لإضافة بيانات جديدة */}
-      <div className="mt-4 flex flex-col gap-2 bg-white">
-        <input
-          type="date"
-          name="date"
-          value={form.date}
-          onChange={handleChange}
-          className="border px-2 py-1"
-        />
-        <input
-          type="text"
-          name="details"
-          placeholder="التفاصيل"
-          value={form.details}
-          onChange={handleChange}
-          className="border px-2 py-1"
-        />
-        <input
-          type="number"
-          name="amountIQD"
-          placeholder="المبلغ بالدينار"
-          value={form.amountIQD}
-          onChange={handleChange}
-          className="border px-2 py-1"
-        />
-        <input
-          type="number"
-          name="amountUSD"
-          placeholder="المبلغ بالدولار"
-          value={form.amountUSD}
-          onChange={handleChange}
-          className="border px-2 py-1"
-        />
-        <button
-          onClick={handleAdd}
-          className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
-        >
-          إضافة
-        </button>
-      </div>
+      {/* زر إضافة جدول جديد فوق على اليسار */}
+      <button
+        onClick={addNewTable}
+        className="mb-4 bg-blue-600 text-white py-2 px-4 rounded hover:bg-blue-700"
+      >
+        إضافة جدول جديد
+      </button>
+
+      {tables.map((table, tableIndex) => {
+        const totals = calculateTotals(table.rows);
+        return (
+          <div key={table.id} className="mb-8 border rounded-lg shadow-md p-4 bg-white">
+
+            {/* عنوان الجدول */}
+            <h2 className="text-center text-xl font-bold mb-4">الصندوق</h2>
+
+            {/* التاريخ */}
+            <div className="grid grid-cols-2 gap-2 mb-4">
+              <label className="font-semibold">التاريخ:</label>
+              <input type="date" className="border p-2 rounded" />
+            </div>
+
+            {/* رأس الجدول */}
+            <div className="grid grid-cols-3 gap-2 bg-gray-200 p-2 font-bold text-center">
+              <div>المبلغ بالدولار</div>
+              <div>المبلغ بالدينار</div>
+              <div>التاريخ</div>
+            </div>
+
+            {/* الصفوف */}
+            {table.rows.map((row, rowIndex) => (
+              <div key={rowIndex} className="border-b pb-4 mb-4">
+
+                {/* المبلغ والتاريخ */}
+                <div className="grid grid-cols-3 gap-2 p-2">
+                  <input
+                    type="number"
+                    className="border p-2 rounded"
+                    placeholder="دولار"
+                    value={row.dollar}
+                    onChange={(e) => updateRow(tableIndex, rowIndex, "dollar", Number(e.target.value))}
+                  />
+                  <input
+                    type="number"
+                    className="border p-2 rounded"
+                    placeholder="دينار"
+                    value={row.dinar}
+                    onChange={(e) => updateRow(tableIndex, rowIndex, "dinar", Number(e.target.value))}
+                  />
+                  <input
+                    type="date"
+                    className="border p-2 rounded"
+                    value={row.date}
+                    onChange={(e) => updateRow(tableIndex, rowIndex, "date", e.target.value)}
+                  />
+                </div>
+
+                {/* المقبوضات */}
+                <div className="grid grid-cols-3 gap-2 p-2 items-center">
+                  <input
+                    type="number"
+                    className="border p-2 rounded"
+                    placeholder="إضافة دولار"
+                    value={row.addDollar}
+                    onChange={(e) => updateRow(tableIndex, rowIndex, "addDollar", Number(e.target.value))}
+                  />
+                  <input
+                    type="number"
+                    className="border p-2 rounded"
+                    placeholder="إضافة دينار"
+                    value={row.addDinar}
+                    onChange={(e) => updateRow(tableIndex, rowIndex, "addDinar", Number(e.target.value))}
+                  />
+                  <div className="text-center font-semibold">المقبوضات</div>
+                </div>
+
+                {/* المدفوعات */}
+                <div className="grid grid-cols-3 gap-2 p-2 items-center">
+                  <input
+                    type="number"
+                    className="border p-2 rounded"
+                    placeholder="مدفوع دولار"
+                    value={row.payDollar}
+                    onChange={(e) => updateRow(tableIndex, rowIndex, "payDollar", Number(e.target.value))}
+                  />
+                  <input
+                    type="number"
+                    className="border p-2 rounded"
+                    placeholder="مدفوع دينار"
+                    value={row.payDinar}
+                    onChange={(e) => updateRow(tableIndex, rowIndex, "payDinar", Number(e.target.value))}
+                  />
+                  <div className="text-center font-semibold">المدفوعات</div>
+                </div>
+              </div>
+            ))}
+
+            {/* المجموع */}
+            <div className="grid grid-cols-3 font-bold text-center bg-gray-100 p-3 rounded mb-4">
+              <div>مجموع الدولار: {totals.totalDollar}</div>
+              <div>مجموع الدينار: {totals.totalDinar}</div>
+              <div>المجموع</div>
+            </div>
+
+            {/* زر إضافة صف */}
+            <button
+              onClick={() => addNewRow(tableIndex)}
+              className="w-full bg-green-600 text-white py-2 rounded hover:bg-green-700 mb-2"
+            >
+              إضافة صف جديد
+            </button>
+
+            {/* زر حفظ الجدول */}
+            <button
+              onClick={() => {
+                const tableToSave = tables[tableIndex];
+                console.log("Saving table:", tableToSave);
+                alert(`تم حفظ الجدول رقم ${tableToSave.id} في الكونسول`);
+              }}
+              className="w-full bg-yellow-600 text-white py-2 rounded hover:bg-yellow-700"
+            >
+              حفظ الجدول
+            </button>
+
+          </div>
+        );
+      })}
     </div>
   );
-};
-
-export default CashTable;
+}
