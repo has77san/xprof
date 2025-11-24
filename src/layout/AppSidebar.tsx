@@ -38,16 +38,31 @@ interface NavItem {
 // ✅ القوائم الرئيسية
 const navItems: NavItem[] = [
   { icon: <LayoutDashboard />, name: "الصفحة الرئيسية", path: "/" },
-  { icon: <CalendarDays />, name: "ملف الحسابات", path: "/calendar" },
   { icon: <List />, name: "تسجيل الايرادات", path: "/form-elements" },
   { icon: <Table />, name: "تسجيل المصاريف", path: "/expenses" },
-  { icon: <FileText />, name: "الموجودات الثابته", path: "/Expenses_six" },
+    { icon: <FileText />, name: "الموجودات الثابته", path: "/Expenses_six" },
+
+   {
+    icon: <FolderOpen />,
+    name: "السجلات المحاسبة",
+    subItems: [
+      { name: "سجل اليومية العام", path: "/AccountingTable" },
+       { name: "سجل الصندوق", path: "/CashTable" },
+      { name: "سجل الاستاذ العام", path: "/LedgerTable" },
+      { name: "سجل الموجودات الثابته", path: "/Assetregster" },
+      { name: "سجل القاصة /فئات", path: "/" },
+    ],
+  },
+
+    { icon: <Coins />, name: "التحويل الى الفروع", path: "/Selectattsix" },
+  { icon: <Coins />, name: "استلام من الفروع", path: "/Selectattseven" },
+
 ];
 
 // ✅ القوائم الأخرى
 const othersItems: NavItem[] = [
-  { icon: <BarChart3 />, name: "الاندثارات", path: "/line-chart" },
-  {
+
+   {
     icon: <Box />,
     name: "الاطفاءات",
     subItems: [
@@ -59,20 +74,10 @@ const othersItems: NavItem[] = [
       { name: "Videos", path: "/videos" },
     ],
   },
+  { icon: <BarChart3 />, name: "الاندثارات", path: "/line-chart" },
+ 
   { icon: <TrendingUp />, name: "الامتثال", path: "/Compliance" },
-  { icon: <Coins />, name: "التحويل الى الفروع", path: "/Selectattsix" },
-  { icon: <Coins />, name: "استلام من الفروع", path: "/Selectattseven" },
-  {
-    icon: <FolderOpen />,
-    name: "السجلات المحاسبة",
-    subItems: [
-      { name: "سجل اليومية العام", path: "/AccountingTable" },
-       { name: "سجل الصندوق", path: "/CashTable" },
-      { name: "سجل الاسناد العام", path: "/LedgerTable" },
-      { name: "سجل الموجودات الثابته", path: "/" },
-      { name: "سجل القاصة /فئات", path: "/" },
-    ],
-  },
+ 
   {
     icon: <Layers />,
     name: "ميزان المراجعة",
@@ -90,6 +95,8 @@ const othersItems: NavItem[] = [
     ],
   },
   { icon: <ClipboardList />, name: "التسويات القيدية", path: "/" },
+    { icon: <List />, name: "الاعدادات", path: "/" },
+
   { icon: <LogIn />, name: "تسجيل دخول", path: "/signin" },
   { icon: <LogOut />, name: "تسجيل خروج", path: "/signup" },
 ];

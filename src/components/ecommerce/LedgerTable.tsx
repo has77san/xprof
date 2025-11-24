@@ -13,7 +13,7 @@ interface TableData {
   setRows: (rows: Row[]) => void;
 }
 
-export default function LedgerTable() {
+export default function LedgerTablesGrid() {
   const [salariesRows, setSalariesRows] = useState<Row[]>([]);
   const [insuranceRows, setInsuranceRows] = useState<Row[]>([]);
   const [taxRows, setTaxRows] = useState<Row[]>([]);

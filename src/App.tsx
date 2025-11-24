@@ -38,6 +38,7 @@ import Compliance from "./components/ecommerce/Compliance";
 import AccountingTable from "./components/ecommerce/AccountingTable";
 import CashTable from "./components/ecommerce/CashTable";
 import LedgerTable from "./components/ecommerce/LedgerTable";
+import Assetregster from "./components/ecommerce/Assetregster";
 
 export default function App() {
   return (
@@ -84,7 +85,9 @@ export default function App() {
             {/* سجلات المحاسبيه */}
             <Route path="/AccountingTable" element={<AccountingTable />} />
              <Route path="/CashTable" element={<CashTable />} />
-                          <Route path="/LedgerTable" element={<LedgerTable />} />
+             <Route path="/LedgerTable" element={<LedgerTable />} />
+              <Route path="/Assetregster" element={<Assetregster />} />
+
 
 
 
