@@ -49,7 +49,6 @@ const navItems: NavItem[] = [
        { name: "سجل الصندوق", path: "/CashTable" },
       { name: "سجل الاستاذ العام", path: "/LedgerTable" },
       { name: "سجل الموجودات الثابته", path: "/Assetregster" },
-      { name: "سجل القاصة /فئات", path: "/" },
     ],
   },
 
@@ -64,14 +63,7 @@ const othersItems: NavItem[] = [
    {
     icon: <Box />,
     name: "الاطفاءات",
-    subItems: [
-      { name: "Alerts", path: "/alerts" },
-      { name: "Avatar", path: "/avatars" },
-      { name: "Badge", path: "/badge" },
-      { name: "Buttons", path: "/buttons" },
-      { name: "Images", path: "/images" },
-      { name: "Videos", path: "/videos" },
-    ],
+    path: "/",
   },
   { icon: <BarChart3 />, name: "الاندثارات", path: "/line-chart" },
  
@@ -80,18 +72,7 @@ const othersItems: NavItem[] = [
   {
     icon: <Layers />,
     name: "ميزان المراجعة",
-    subItems: [
-      {
-        name: "ميزان المراجعة قبل",
-        path: "/",
-        subItems: [
-          { name: "ارصدة", path: "/" },
-          { name: "مجاميع", path: "/" },
-        ],
-      },
-      { name: "ميزان مراجعة قبل الخلف", path: "/" },
-      { name: "ميزان مراجعة لفترة محددة", path: "/" },
-    ],
+    path: "/Accountingtow",
   },
   { icon: <ClipboardList />, name: "التسويات القيدية", path: "/" },
     { icon: <List />, name: "الاعدادات", path: "/" },

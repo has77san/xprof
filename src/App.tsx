@@ -39,6 +39,8 @@ import AccountingTable from "./components/ecommerce/AccountingTable";
 import CashTable from "./components/ecommerce/CashTable";
 import LedgerTable from "./components/ecommerce/LedgerTable";
 import Assetregster from "./components/ecommerce/Assetregster";
+import TrialBalanceTable from "./components/ecommerce/TrialBalanceTable";
+import Accountingtow from "./components/ecommerce/Accountingtow";
 
 export default function App() {
   return (
@@ -87,6 +89,13 @@ export default function App() {
              <Route path="/CashTable" element={<CashTable />} />
              <Route path="/LedgerTable" element={<LedgerTable />} />
               <Route path="/Assetregster" element={<Assetregster />} />
+              <Route path="/TrialBalanceTable" element={<TrialBalanceTable />} />
+               <Route path="/Accountingtow" element={<Accountingtow />} />
+
+
+              
+
+              
 
 
 
