@@ -4,51 +4,51 @@ import PageMeta from "../../components/common/PageMeta";
 const cardData = [
   {
     title: "الشهر الاول",
-    link: "./TrialBalanceTable",
+    link: "./AccountingTable",
   },
   {
     title: "الشهر الثاني",
-    link: "./TrialBalanceTable",
+    link: "./AccountingTable",
   },
   {
     title: "الشهر الثالث",
-    link: "./TrialBalanceTable",
+    link: "./AccountingTable",
   },
    {
     title: "الشهر الرابع",
-    link: "./TrialBalanceTable",
+    link: "./AccountingTable",
   },
   {
     title: "الشهر الخامس",
-    link: "./TrialBalanceTable",
+    link: "./AccountingTable",
   },
   {
     title: "الشهر السادس",
-    link: "./TrialBalanceTable",
+    link: "./AccountingTable",
   },
   {
     title: "الشهر السابع",
-    link: "./TrialBalanceTable",
+    link: "./AccountingTable",
   },
   {
     title: "الشهر الثامن",
-    link: "./TrialBalanceTable",
+    link: "./AccountingTable",
   },
   {
     title: "الشهر التاسع",
-    link: "./TrialBalanceTable",
+    link: "./AccountingTable",
   },
   {
     title: "الشهر العاشر",
-    link: "./TrialBalanceTable",
+    link: "./AccountingTable",
   },
   {
     title: "الشهر الحادي عشر",
-    link: "./TrialBalanceTable",
+    link: "./AccountingTable",
   },
   {
     title: "الشهر الثثاني عشر",
-    link: "./TrialBalanceTable",
+    link: "./AccountingTable",
   },
 ];
 

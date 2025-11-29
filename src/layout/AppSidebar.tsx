@@ -45,7 +45,7 @@ const navItems: NavItem[] = [
     icon: <FolderOpen />,
     name: "السجلات المحاسبة",
     subItems: [
-      { name: "سجل اليومية العام", path: "/AccountingTable" },
+      { name: "سجل اليومية العام", path: "/Accountingtow" },
        { name: "سجل الصندوق", path: "/CashTable" },
       { name: "سجل الاستاذ العام", path: "/LedgerTable" },
       { name: "سجل الموجودات الثابته", path: "/Assetregster" },
@@ -72,7 +72,7 @@ const othersItems: NavItem[] = [
   {
     icon: <Layers />,
     name: "ميزان المراجعة",
-    path: "/Accountingtow",
+    path: "/TrialBalanceTable",
   },
   { icon: <ClipboardList />, name: "التسويات القيدية", path: "/" },
     { icon: <List />, name: "الاعدادات", path: "/" },
