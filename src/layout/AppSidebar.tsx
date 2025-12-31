@@ -72,7 +72,7 @@ const othersItems: NavItem[] = [
   {
     icon: <Layers />,
     name: "ميزان المراجعة",
-    path: "/TrialBalanceTable",
+    path: "/Trialbalance",
   },
   { icon: <ClipboardList />, name: "التسويات القيدية", path: "/" },
     { icon: <List />, name: "الاعدادات", path: "/" },

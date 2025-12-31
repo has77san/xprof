@@ -41,6 +41,7 @@ import LedgerTable from "./components/ecommerce/LedgerTable";
 import Assetregster from "./components/ecommerce/Assetregster";
 import TrialBalanceTable from "./components/ecommerce/TrialBalanceTable";
 import Accountingtow from "./components/ecommerce/Accountingtow";
+import Trialbalance from "./pages/Trialbalance";
 
 export default function App() {
   return (
@@ -89,7 +90,6 @@ export default function App() {
              <Route path="/CashTable" element={<CashTable />} />
              <Route path="/LedgerTable" element={<LedgerTable />} />
               <Route path="/Assetregster" element={<Assetregster />} />
-              <Route path="/TrialBalanceTable" element={<TrialBalanceTable />} />
                <Route path="/Accountingtow" element={<Accountingtow />} />
 
 
@@ -111,6 +111,14 @@ export default function App() {
           <Route path="/Expensesfour" element={<Expensesfour />} />
           <Route path="/Expensesfive" element={<Expensesfive />} />
           <Route path="/Expenses_six" element={<Expenses_six />} />
+
+                        {/***********ميزان المراجعه  *****/}
+
+                        <Route path="/Trialbalance" element={<Trialbalance />} />
+              <Route path="/TrialBalanceTable" element={<TrialBalanceTable />} />
+
+              {/*****************/}
+
 
 
           {/* Charts */}
